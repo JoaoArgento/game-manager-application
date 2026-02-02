@@ -8,3 +8,5 @@ docker-up:
 docker-down:
 	docker compose -f Infra/compose.yaml down
 
+createTable-migration:
+	dotnet ef database update --project Infra

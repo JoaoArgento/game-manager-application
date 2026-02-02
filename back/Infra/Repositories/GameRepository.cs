@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Repositories;
 using Infra.Data;
+using Microsoft.EntityFrameworkCore;
 
 
 public class GameRepository : IGameRepository
@@ -15,6 +16,9 @@ public class GameRepository : IGameRepository
     {
         this.postgresContext = postgresContext;
     }
+
+    public bool CanConnectToDB() => postgresContext.Database.CanConnect();
+        
     public async Task AddAsync(Game game)
     {
         // string insertSQL = @"INSERT INTO games (name, description) 
@@ -26,7 +30,7 @@ public class GameRepository : IGameRepository
 
     public async Task<IEnumerable<Game>> GetAllAsync()
     {
-        return [.. postgresContext.Games];
+        return await postgresContext.Games.ToListAsync();
     }
 
     public async Task<Game?> GetOneByIdAsync(Guid id)

@@ -1,3 +1,4 @@
+using System;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 namespace Infra.Data;
@@ -10,6 +11,8 @@ public class PostgresContext : DbContext
         
     }
 
-    public DbSet<Game> Games => Set<Game>();
+     public DbSet<Game> Games => Set<Game>();
+
+    
 
 }

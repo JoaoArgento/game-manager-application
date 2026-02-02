@@ -16,6 +16,8 @@ public class GameService
     {
         Game newGame = new Game(Guid.NewGuid(), name, description, Genre.Action);
         await gameRepository.AddAsync(newGame);
-
     }
+
+    public bool CanConnectToDB() => gameRepository.CanConnectToDB();
+    public async Task<IEnumerable<Game>> GetAllAsync() => await gameRepository.GetAllAsync();
 }

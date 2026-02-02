@@ -1,16 +1,31 @@
 using Microsoft.EntityFrameworkCore;
 using Infra.Data;
+using Application.Services;
+using Domain.Repositories;
+
+DotNetEnv.Env.Load("../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<PostgresContext>(options =>
 {
-   options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_URL"));
+    options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_URL"));
 });
+
+Console.WriteLine($"Variavel de ambiente: {Environment.GetEnvironmentVariable("POSTGRES_URL")} ");
+
+// foreach (var envVar in Environment.GetEnvironmentVariables())
+// {
+//     Console.WriteLine(envVar);
+// }
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<GameService>();
+
 
 var app = builder.Build();
 

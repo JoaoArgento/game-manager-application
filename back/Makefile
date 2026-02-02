@@ -1,8 +1,9 @@
 run: 
-	dotnet run --project API
+	docker compose -f Infra/compose.yaml up -d
+	dotnet run --project API 
 
 docker-up: 
-	docker compose -f Infra/compose.yaml up
+	docker compose -f Infra/compose.yaml up -d
 
 docker-down:
 	docker compose -f Infra/compose.yaml down

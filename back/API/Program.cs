@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Infra.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDbContext<PostgresContext>(options =>
+{
+   options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_URL"));
+});
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();

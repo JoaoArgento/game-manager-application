@@ -1,11 +1,6 @@
 namespace Domain.Entities;
 public class Game
 {
-    public enum Genre
-    {
-        Action,
-        Shooter,
-    }
     public Guid Id {get; private set; } = Guid.NewGuid();
     public string Name {get; private set; }
     public string Description {get; private set; }
@@ -25,3 +20,9 @@ public class Game
         Genre = genre;
     }
 }
+
+ public enum Genre
+    {
+        Action,
+        Shooter,
+    }

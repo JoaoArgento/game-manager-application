@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -12,10 +13,15 @@ public class GameService
         this.gameRepository = gameRepository;
     }
 
-    public async Task CreateGame(string name, string description)
+    public async Task<Game> CreateGame(CreateGameRequest createGameRequest)
     {
-        Game newGame = new Game(Guid.NewGuid(), name, description, Genre.Action);
+        Game newGame = new Game(Guid.NewGuid(), createGameRequest.Name, 
+                                                createGameRequest.Description, 
+                                                createGameRequest.LogoPath, 
+                                                Genre.Action);
         await gameRepository.AddAsync(newGame);
+
+        return newGame;
     }
 
     public bool CanConnectToDB() => gameRepository.CanConnectToDB();

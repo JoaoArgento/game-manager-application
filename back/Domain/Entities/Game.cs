@@ -21,6 +21,14 @@ public class Game
         Description = description;
         Genre = genre;
     }
+
+    public void Update(string name, string description, string logoPath, Genre genre)
+    {
+        this.Name = name;
+        this.Description = description;
+        this.LogoPath = logoPath;
+        this.Genre = genre;
+    }
 }
 
  public enum Genre

@@ -25,6 +25,7 @@ public class GameRepository : IGameRepository
 
     
         await postgresContext.Games.AddAsync(game);
+        await postgresContext.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()

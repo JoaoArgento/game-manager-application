@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.Services;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +18,17 @@ public class GameDataController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        List<Game> allGames = (await gameService.GetAllAsync()).ToList();
+        List<Game> allGames = [.. (await gameService.GetAllAsync())];
         
-        return Ok(new {message = "Foi aos prantos o gay", CanConnect = gameService.CanConnectToDB()});
+        return Ok(allGames);
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> AddAsync()
-    // {
-    //     await gameService.CreateGame("Yes baby", "thankYou");
-
-    //     return Ok();
-    // }
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromBody] CreateGameRequest createGameRequest)
+    {
+        Game newGame = await gameService.CreateGame(createGameRequest);
+        return Ok(newGame);
+    }
 
     
 }

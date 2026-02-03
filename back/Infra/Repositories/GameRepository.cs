@@ -5,7 +5,7 @@ using Domain.Entities;
 using Domain.Repositories;
 using Infra.Data;
 using Microsoft.EntityFrameworkCore;
-
+using Application.DTOs;
 
 public class GameRepository : IGameRepository
 {
@@ -51,8 +51,15 @@ public class GameRepository : IGameRepository
         await postgresContext.SaveChangesAsync();
     }
 
-    public Task UpdateByIdAsync(Guid id)
+    public async Task<Game> UpdateByIdAsync(Guid id, string name, string description, string logoPath)
     {
-        throw new NotImplementedException();
+        Game ? target = await GetOneByIdAsync(id);
+
+        if (target == null)
+        {
+            throw new NullReferenceException($"Game with id {id} doesnt exist");
+        }
+        target.Update(name, description, logoPath, 0);
+        return target;
     }
 }

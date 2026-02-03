@@ -24,6 +24,17 @@ public class GameService
         return newGame;
     }
 
+    public async Task<Game> UpdateGame(UpdateGameRequest updateGameRequest)
+    {
+        var updatedGame  = await gameRepository.UpdateByIdAsync(
+                                updateGameRequest.Id, 
+                                updateGameRequest.Name,
+                                updateGameRequest.Description,
+                                updateGameRequest.LogoPath);
+
+        return updatedGame;
+    }
+
     public bool CanConnectToDB() => gameRepository.CanConnectToDB();
     public async Task<IEnumerable<Game>> GetAllAsync() => await gameRepository.GetAllAsync();
 }

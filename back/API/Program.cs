@@ -1,24 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Infra.Data;
-using Application.Services;
 using Domain.Repositories;
+using Application.Services;
 
-DotNetEnv.Env.Load("../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
+// if (!builder.Environment.IsEnvironment("Testing"))
+// {
+//     DotNetEnv.Env.Load("../.env");
+// }
 
 builder.Services.AddDbContext<PostgresContext>(options =>
 {
-    options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_URL"));
+    string ? connectionString = builder.Configuration.GetConnectionString("Postgres");
+    options.UseNpgsql(connectionString);
 });
 
-Console.WriteLine($"Variavel de ambiente: {Environment.GetEnvironmentVariable("POSTGRES_URL")} ");
-
-// foreach (var envVar in Environment.GetEnvironmentVariables())
-// {
-//     Console.WriteLine(envVar);
-// }
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
@@ -35,30 +33,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
 app.MapControllers();
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+public partial class Program
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    
 }
+

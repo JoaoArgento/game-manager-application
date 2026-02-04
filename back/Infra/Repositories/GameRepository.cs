@@ -9,14 +9,14 @@ using Application.DTOs;
 
 public class GameRepository : IGameRepository
 {
-    private readonly PostgresContext postgresContext;
+    private readonly PostgresContext context;
 
     public GameRepository(PostgresContext postgresContext)
     {
-        this.postgresContext = postgresContext;
+        this.context = postgresContext;
     }
 
-    public bool CanConnectToDB() => postgresContext.Database.CanConnect();
+    public bool CanConnectToDB() => context.Database.CanConnect();
         
     public async Task AddAsync(Game game)
     {
@@ -24,18 +24,18 @@ public class GameRepository : IGameRepository
         //                     VALUES(@Name, @Description) RETURNING *";
 
     
-        await postgresContext.Games.AddAsync(game);
-        await postgresContext.SaveChangesAsync();
+        await context.Games.AddAsync(game);
+        await context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()
     {
-        return await postgresContext.Games.ToListAsync();
+        return await context.Games.ToListAsync();
     }
 
     public async Task<Game?> GetOneByIdAsync(Guid id)
     {
-        Game ? game = await postgresContext.Games.FindAsync(id);
+        Game ? game = await context.Games.FindAsync(id);
         return game;
     }
 
@@ -47,8 +47,8 @@ public class GameRepository : IGameRepository
         {
             return;
         }
-        postgresContext.Games.Remove(target);
-        await postgresContext.SaveChangesAsync();
+        context.Games.Remove(target);
+        await context.SaveChangesAsync();
     }
 
     public async Task<Game> UpdateByIdAsync(Guid id, string name, string description, string logoPath)
@@ -61,5 +61,11 @@ public class GameRepository : IGameRepository
         }
         target.Update(name, description, logoPath, 0);
         return target;
+    }
+
+    public async Task ClearDatabase()
+    {
+        await context.Database.ExecuteSqlRawAsync(
+            "TRUNCATE TABLE games RESTART IDENTITY CASCADE;");
     }
 }

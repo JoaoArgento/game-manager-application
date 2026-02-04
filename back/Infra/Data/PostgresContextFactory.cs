@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 namespace Infra.Data;
 
 
@@ -9,9 +11,12 @@ public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContex
 {
     public PostgresContext CreateDbContext(string[] args)
     {
-        DotNetEnv.Env.Load("../.env");
+        string ? env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 
-        string ? connection  = Environment.GetEnvironmentVariable("POSTGRES_URL");
+        var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json")
+        .AddJsonFile($"appsettings.{env}.json", optional: true).Build();
+
+        string ? connection  = config.GetConnectionString("Postgres");
         var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
 
         optionsBuilder.UseNpgsql(connection);

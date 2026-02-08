@@ -35,8 +35,7 @@ public class GameRepository : IGameRepository
 
     public async Task<Game?> GetOneByIdAsync(Guid id)
     {
-        Game ? game = await context.Games.FindAsync(id);
-        return game;
+        return await context.Games.FindAsync(id);
     }
 
     public async Task RemoveByIdAsync(Guid id)
@@ -45,7 +44,7 @@ public class GameRepository : IGameRepository
 
         if (target == null)
         {
-            return;
+            throw new NullReferenceException($"Game with id {id} doesnt exist");
         }
         context.Games.Remove(target);
         await context.SaveChangesAsync();
@@ -61,11 +60,5 @@ public class GameRepository : IGameRepository
         }
         target.Update(name, description, logoPath, 0);
         return target;
-    }
-
-    public async Task ClearDatabase()
-    {
-        await context.Database.ExecuteSqlRawAsync(
-            "TRUNCATE TABLE games RESTART IDENTITY CASCADE;");
     }
 }

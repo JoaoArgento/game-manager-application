@@ -3,7 +3,6 @@ using Infra.Data;
 using Domain.Repositories;
 using Application.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // if (!builder.Environment.IsEnvironment("Testing"))
@@ -23,6 +22,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<GameService>();
+
+
 
 
 var app = builder.Build();

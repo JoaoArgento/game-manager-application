@@ -9,6 +9,5 @@ public interface IGameRepository
     public Task<IEnumerable<Game>> GetAllAsync();
     public Task<Game> UpdateByIdAsync(Guid id, string name, string description, string logoPath);
     public Task<Game?> GetOneByIdAsync(Guid id);
-
     public bool CanConnectToDB();
 }

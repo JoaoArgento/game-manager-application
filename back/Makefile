@@ -10,3 +10,6 @@ docker-down:
 
 createTable-migration:
 	dotnet ef database update --project Infra
+
+enter-psql:
+	docker exec -it postgres-dev psql -U Cleberson -d postgres

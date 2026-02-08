@@ -6,24 +6,28 @@ using System.Net;
 
 namespace Tests.Integration.API.Games;
 
-public class GameEndpointTests : IClassFixture<APIFactory>
+[Collection("Integration")]
+public class GameEndpointTests 
 {
-    private readonly HttpClient httpClient;
+    private IntegrationFixture integrationFixture;
 
-    public GameEndpointTests(APIFactory factory)
+    public GameEndpointTests(IntegrationFixture integrationFixture)
     {
-        httpClient = factory.CreateClient();
-
+        this.integrationFixture = integrationFixture;
     }
 
     [Fact]
     [Trait("Category", "GameEndpoint")]
     public async Task Post_ShouldReturnOk()
     {
+        await integrationFixture.ResetDbAsync();
+
+
         CreateGameRequest createGameRequest = 
         new CreateGameRequest("Good of war", "Brabo", "");
 
-        var response = await httpClient.PostAsJsonAsync("/games", createGameRequest);
+        var response = await integrationFixture.Client.PostAsJsonAsync(
+                        "/games", createGameRequest);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }

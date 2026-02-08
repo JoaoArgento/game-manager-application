@@ -16,6 +16,13 @@ builder.Services.AddDbContext<PostgresContext>(options =>
     options.UseNpgsql(connectionString);
 });
 
+builder.Services.AddCors(options =>
+{
+   options.AddPolicy("frontend", policy =>
+   {
+      policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+   });
+});
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
@@ -34,6 +41,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("frontend");
 app.MapControllers();
 app.Run();
 

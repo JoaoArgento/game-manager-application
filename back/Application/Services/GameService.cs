@@ -35,6 +35,20 @@ public class GameService
         return updatedGame;
     }
 
-    public bool CanConnectToDB() => gameRepository.CanConnectToDB();
+    public async Task DeleteGameAsync(string id)
+    {
+        try
+        {
+            if (!Guid.TryParse(id, out Guid guid))
+            {
+                throw new ArgumentException("id invalido");
+            }
+            await gameRepository.DeleteByIdAsync(guid);         
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
     public async Task<IEnumerable<Game>> GetAllAsync() => await gameRepository.GetAllAsync();
 }

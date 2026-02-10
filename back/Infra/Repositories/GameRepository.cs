@@ -38,14 +38,12 @@ public class GameRepository : IGameRepository
         return await context.Games.FindAsync(id);
     }
 
-    public async Task RemoveByIdAsync(Guid id)
+    public async Task DeleteByIdAsync(Guid id)
     {
-        Game ? target = await GetOneByIdAsync(id);
+    
+        Game? target = await GetOneByIdAsync(id) 
+        ?? throw new NullReferenceException($"Game with id {id} doesnt exist");
 
-        if (target == null)
-        {
-            throw new NullReferenceException($"Game with id {id} doesnt exist");
-        }
         context.Games.Remove(target);
         await context.SaveChangesAsync();
     }

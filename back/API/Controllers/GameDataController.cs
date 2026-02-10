@@ -18,7 +18,7 @@ public class GameDataController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        List<Game> allGames = [.. (await gameService.GetAllAsync())];
+        List<Game> allGames = [.. await gameService.GetAllAsync()];
         
         return Ok(allGames);
     }
@@ -29,12 +29,17 @@ public class GameDataController : ControllerBase
         Game newGame = await gameService.CreateGame(createGameRequest);
         return Ok(newGame);
     }
-    [HttpPatch]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateAsync([FromBody] UpdateGameRequest updateGameRequest)
     {
         var updatedGame = await gameService.UpdateGame(updateGameRequest);
         return Ok(updatedGame);
     }
 
-    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync([FromBody] string id)
+    {
+        await gameService.DeleteGameAsync(id);
+        return Ok(200);
+    }
 }

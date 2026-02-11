@@ -1,13 +1,15 @@
 "use client"
-import { useGames, useDeleteGame, useCreateGame } from "../hooks/useGames";
+import { useGames, useCreateGame } from "../hooks/useGames";
+import { useGameRemoval } from "../hooks/useGameRemoval";
 import GameForms from "../components/forms/gameForms";
 import GameCards from "../components/card/gameCards";
-
+import ConfirmModel from "../components/ui/ConfirmModal";
 export default function GamePage()
 {
+    const gameRemoval = useGameRemoval();
+
     const {data: games, isError} = useGames();
-    const deleteGame = useDeleteGame();
-    
+
     if (isError)
     {
         return <div>Deu pau!</div>
@@ -16,9 +18,12 @@ export default function GamePage()
 
     return <div>
             <GameCards  games = {games} 
-                        onDelete = {(id: string) => {deleteGame.mutate(id)}} 
+                        onDelete = {gameRemoval.requestGameRemoval}
                         onEdit={null}/>
-
             <GameForms createGame = {useCreateGame()}/>
+
+            <ConfirmModel isOpen = {gameRemoval.isRemovingAGame}
+            onConfirm={gameRemoval.confirmGameRemoval}
+            onCancel={gameRemoval.resetRemoval}/>
         </div>
 }

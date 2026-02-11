@@ -1,6 +1,6 @@
 import { GameDTO } from "./GameDTO"
 
-export type Props =  
+export type GameCardProps =  
 {
     games: GameDTO[]
     onDelete: (id:string) => void;

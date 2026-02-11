@@ -11,6 +11,10 @@ async function getById(id : string)
     const response = await APIClient.get(`/games/${id}`);
     return response.data;
 }
+async function updateById(id: string)
+{
+    const response = await APIClient.patch(``)
+}
 
 async function createGame(payload : CreateGameDTO)
 {

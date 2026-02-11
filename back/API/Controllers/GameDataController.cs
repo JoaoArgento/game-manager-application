@@ -37,7 +37,7 @@ public class GameDataController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync([FromBody] string id)
+    public async Task<IActionResult> DeleteAsync(string id)
     {
         await gameService.DeleteGameAsync(id);
         return Ok(200);

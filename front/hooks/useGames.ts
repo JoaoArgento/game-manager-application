@@ -22,3 +22,12 @@ export function useCreateGame()
     });
 }
 
+export function useDeleteGame()
+{
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id : string) => gameService.deleteGame(id),
+        onSuccess: () => queryClient.invalidateQueries({queryKey: QUERY_KEY})
+    })
+}

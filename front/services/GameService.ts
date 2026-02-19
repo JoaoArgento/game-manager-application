@@ -11,9 +11,10 @@ async function getById(id : string)
     const response = await APIClient.get(`/games/${id}`);
     return response.data;
 }
-async function updateById(id: string)
+async function updateById(id: string, payload : CreateGameDTO)
 {
-    const response = await APIClient.patch(``)
+    const response = await APIClient.patch(`/games/${id}`, payload);
+    return response.data;
 }
 
 async function createGame(payload : CreateGameDTO)
@@ -28,6 +29,7 @@ async function deleteGame(id :string)
 const gameService = {
     getAll,
     getById,
+    updateById,
     createGame,
     deleteGame,
 }

@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useCreateGame } from "./useGames";
+import { useCreateGame, useUpdateGame } from "./useGames";
 import { CreateGameDTO } from "../types/GameDTO";
 export function useModifyGame()
 {
     const createGameMutation = useCreateGame();
+    const updateGameMutation = useUpdateGame();
+
     const [gameId, setGameId] = useState("");
     const [isChanging, setIsChanging] = useState(false);
     const [title, setTitle] = useState("");
@@ -20,6 +22,7 @@ export function useModifyGame()
         if (isUpdatingAGame())
         {   
                 // atualiza o jogo
+            updateGameMutation.mutate({id: gameId, data: gameInfo});
         }
         else
         {

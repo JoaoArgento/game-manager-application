@@ -7,6 +7,7 @@ export type GameDTO =
 }
 
 
+
 export type CreateGameDTO = 
 {
     name: string,

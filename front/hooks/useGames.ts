@@ -22,6 +22,15 @@ export function useCreateGame()
     });
 }
 
+export function useUpdateGame()
+{
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({id, data} : {id: string, data: CreateGameDTO}) => gameService.updateById(id, data),
+        onSuccess: () => queryClient.invalidateQueries({queryKey:QUERY_KEY})
+    });
+}
+
 export function useDeleteGame()
 {
     const queryClient = useQueryClient();

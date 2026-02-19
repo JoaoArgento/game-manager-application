@@ -30,8 +30,10 @@ export default function GameForms(props : GameFormsProps)
     }
 
     return (
-        <div className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-        <div className = "w-full max-w-md h-fit overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
+        <div onClick={() => {props.onCancel()}} 
+            className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div onClick={(e) => e.stopPropagation()}
+            className = "w-full max-w-md h-fit overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
             <div className = "border-b border-zinc-100 bg-zinc-50/50 p-4">
                 <div className = "flex items-center justify-between p-4">
                     <h3 className = "text-lg font-semibold text-zinc-900">{props.title}</h3>

@@ -7,7 +7,6 @@ type ConfirmModalProps =
     isOpen: boolean
     onConfirm: () => void
     onCancel: () => void
-
 }
 
 export default function ConfirmModel(props : ConfirmModalProps)
@@ -19,8 +18,10 @@ export default function ConfirmModel(props : ConfirmModalProps)
     }
 
     return (
-        <div className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className = "w-full max-w-md overflow-hidden rounded-xl bg-white shadow-xl ring-1 ring-zinc-200">
+        <div onClick = {() => props.onCancel()}
+            className = "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div onClick={(e) => e.stopPropagation()} 
+                className = "w-full max-w-md overflow-hidden rounded-xl bg-white shadow-xl ring-1 ring-zinc-200">
                 <div className="flex items-center justify-between border-b border-zinc-100 p-4">
                     <div>
                         <h3 className = "font-semibold text-zinc-900">{props.title}</h3>

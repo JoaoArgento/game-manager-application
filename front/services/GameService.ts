@@ -1,3 +1,4 @@
+import { describe } from "node:test";
 import { CreateGameDTO } from "../types/GameDTO";
 import APIClient from "./APIClient";
 
@@ -13,7 +14,12 @@ async function getById(id : string)
 }
 async function updateById(id: string, payload : CreateGameDTO)
 {
-    const response = await APIClient.patch(`/games/${id}`, payload);
+    const response = await APIClient.patch(`/games`, {
+        id: id,
+        name: payload.name,
+        description: payload.description,
+        logoPath: payload.logoPath,
+    });
     return response.data;
 }
 

@@ -57,6 +57,7 @@ public class GameRepository : IGameRepository
             throw new NullReferenceException($"Game with id {id} doesnt exist");
         }
         target.Update(name, description, logoPath, 0);
+        await context.SaveChangesAsync();
         return target;
     }
 }

@@ -26,7 +26,7 @@ export default function GameCards(props : GameCardProps)
             </p>
 
             <div className = "mt-4 flex items-center justify-end gap-2">
-                <button 
+                <button onClick={()=> {props.onEdit(game.id)}} 
                         className = "inline-flex items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 shadow-sm transition hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400">
                     <Pencil className="h-3.5 w-3.5"/>Editar
                 </button>

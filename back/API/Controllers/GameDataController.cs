@@ -29,7 +29,7 @@ public class GameDataController : ControllerBase
         Game newGame = await gameService.CreateGame(createGameRequest);
         return Ok(newGame);
     }
-    [HttpPatch("{id}")]
+    [HttpPatch]
     public async Task<IActionResult> UpdateAsync([FromBody] UpdateGameRequest updateGameRequest)
     {
         var updatedGame = await gameService.UpdateGame(updateGameRequest);
